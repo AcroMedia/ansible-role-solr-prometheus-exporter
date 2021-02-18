@@ -1,0 +1,4 @@
+---
+# handlers file for ansible-role-solr-prometheus-exporter
+- name: Restart Solr prometheus exporter
+  service: name=prometheus_solr_exporter state=restarted enabled=yes
