@@ -11,7 +11,7 @@
   tags:
     - prometheus_solr_exporter_service
 
-- name: Solr_prometheus | Enabling service
+- name: Solr_prometheus | Enable service
   systemd:
     name: prometheus_solr_exporter
     state: started
