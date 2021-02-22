@@ -1,0 +1,96 @@
+---
+# ------------------------------------------------------------------------
+- name: Make sure rsync is installed (locally) on the ansible controller.
+    This is only necessary for testing roles that use rsync, because the fedora
+    image from robertdebock does not come with rsync installed.
+  hosts: localhost
+  connection: local
+  become: no
+  gather_facts: yes
+  tasks:
+
+    - name: Update yum cache on the controller
+      yum:
+        update_cache: yes
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure ssh client is installed on the controller
+      package:
+        name:
+          - openssh-clients
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+
+    - name: Ensure rsync exists on the controller
+      package:
+        name:
+          - rsync
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+
+# ------------------------------------------------------------------------
+- name: Prepare Install role dependencies
+  hosts: all
+  become: yes
+  gather_facts: yes
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+  vars:
+    - solr_install_path: /opt/solr
+  roles:
+    - contrib/geerlingguy.java
+    - contrib/geerlingguy.solr
+
+# ------------------------------------------------------------------------
+- name: Prepare targets for converge
+  hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+
+    - name: Install cron (Debian).
+      apt: name=cron state=present
+      when: ansible_os_family == 'Debian'
+
+    - name: Update yum
+      yum:
+        update_cache: yes
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure ssh client is installed
+      package:
+        name:
+          - openssh-clients
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+
+    - name: Ensure rsync exists on the controller
+      package:
+        name:
+          - rsync
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install dependencies (RedHat).
+      yum: name={{ item }} state=present
+      when: ansible_os_family == 'RedHat'
+      with_items:
+        - cronie
+        - epel-release
+
+    - name: Ensure OS-Agnostic dependencies are present in test image
+      package:
+        name: "{{ package_dependencies }}"
+        state: present
+      vars:
+        package_dependencies:
+          - openssh-server
+          - libpopt0
+          - rsync
+      when: ansible_os_family == 'Debian'
+
