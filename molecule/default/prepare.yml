@@ -9,7 +9,7 @@
       apt: update_cache=true cache_valid_time=600
       when: ansible_os_family == 'Debian'
   vars:
-    - solr_install_path: /opt/solr
+    # - solr_install_path: /opt/solr
   roles:
     - contrib/geerlingguy.java
     - contrib/geerlingguy.solr
