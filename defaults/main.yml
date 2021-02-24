@@ -1,12 +1,12 @@
 ---
 # defaults file for ansible-role-solr-prometheus-exporter
-prometheus_solr_exporter_installation_dir: /opt/solr/
-prometheus_solr_exporter_port: 9854
+prometheus_solr_exporter_installation_dir: /opt
+prometheus_solr_exporter_solr_dir:
+  - solr
+  - solr-8.6.0
+prometheus_solr_exporter_port: 9856
 prometheus_solr_exporter_solr_mode: standalone
 prometheus_solr_exporter_solr_baseurl: http://localhost:8983/solr
 prometheus_solr_exporter_user: solr
 prometheus_solr_exporter_group: solr
 prometheus_solr_exporter_threads: 1
-prometheus_solr_exporter_conf_file: '{{ prometheus_solr_exporter_installation_dir }}contrib/prometheus-exporter/conf/solr-exporter-config.xml'
-prometheus_solr_exporter_command_params: '--port {{ prometheus_solr_exporter_port }} --baseurl {{ prometheus_solr_exporter_solr_baseurl }} --config-file {{ prometheus_solr_exporter_conf_file }} --num-threads {{ prometheus_solr_exporter_threads }}'
-prometheus_solr_exporter_config_location: "{{ prometheus_solr_exporter_installation_dir }}/contrib/prometheus-exporter/conf/solr-exporter-config.xml"

@@ -4,18 +4,20 @@
 - name: Solr_prometheus | Copy service template
   template:
     src: prometheus_solr_exporter.service.j2
-    dest: /etc/systemd/system/prometheus_solr_exporter.service
+    dest: /etc/systemd/system/prometheus_solr_exporter_{{ item }}.service
     owner: root
     group: root
     mode: 0644
+  with_items: '{{ prometheus_solr_exporter_solr_dir }}'
   tags:
     - prometheus_solr_exporter_service
 
 - name: Solr_prometheus | Enable service
   systemd:
-    name: prometheus_solr_exporter
+    name: prometheus_solr_exporter_{{ item }}
     state: started
     enabled: true
     daemon_reload: true
+  with_items: '{{ prometheus_solr_exporter_solr_dir }}'
   tags:
     - prometheus_solr_exporter_service
