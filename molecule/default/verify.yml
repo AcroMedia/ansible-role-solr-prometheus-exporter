@@ -5,7 +5,7 @@
   hosts: all
   tasks:
     - name: check if prometheus exporter is enabled
-      shell: ss -tp state listening sport = :9854 | grep 'prometheus'
+      shell: systemctl --type=service | grep 'prometheus'
       register: results
 
     - name: See service returned
