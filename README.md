@@ -1,5 +1,7 @@
-Role Name
+# Ansible Role: Prometheus Solr Exporter
 =========
+
+[![.github/workflows/molecule.yml](https://github.com/AcroMedia/ansible-role-solr-prometheus-exporter/actions/workflows/molecule.yml/badge.svg)](https://github.com/AcroMedia/ansible-role-solr-prometheus-exporter/actions/workflows/molecule.yml)
 
 This roles creates a systemd service for Prometheus solr exporter for a standalone solr server.
 
