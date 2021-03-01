@@ -1,0 +1,19 @@
+---
+# defaults file for ansible-role-solr-prometheus-exporter
+prometheus_solr_exporter_installation_dir: /opt
+prometheus_solr_exporter_solr_dir:
+  - solr
+  - solr-7.4.0
+prometheus_solr_exporter_port: 9856
+prometheus_solr_exporter_solr_mode: standalone
+prometheus_solr_exporter_user: solr
+prometheus_solr_exporter_group: solr
+prometheus_solr_exporter_threads: 1
+
+prometheus_solr_environments:
+  standalone:
+    solr:
+      solr_base_url: http://localhost:8983/solr
+    solr-7.4.0:
+      solr_base_url: http://localhost:8984/solr
+

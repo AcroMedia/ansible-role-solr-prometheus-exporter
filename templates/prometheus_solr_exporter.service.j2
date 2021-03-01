@@ -1,0 +1,12 @@
+[Unit]
+Description=prometheus_solr_exporter_{{ item }}
+After=network.target
+
+[Service]
+User={{ prometheus_solr_exporter_user }}
+Group={{ prometheus_solr_exporter_group }}
+Type=simple
+ExecStart=/bin/bash {{ prometheus_solr_exporter_installation_dir }}/{{ item }}/contrib/prometheus-exporter/bin/solr-exporter --port {{ prometheus_solr_exporter_port }} --baseurl {{ prometheus_solr_environments[prometheus_solr_exporter_solr_mode][item]['solr_base_url'] }} --config-file {{ prometheus_solr_exporter_installation_dir }}/{{ item }}/contrib/prometheus-exporter/conf/solr-exporter-config.xml --num-threads {{ prometheus_solr_exporter_threads }}
+Restart=on-failure
+RestartSec=5s
+PrivateTmp=true
